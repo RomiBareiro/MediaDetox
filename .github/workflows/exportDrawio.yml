@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - '**/*.drawio'
+  workflow_dispatch:
 
 jobs:
   export:
