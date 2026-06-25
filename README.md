@@ -1,4 +1,5 @@
 
 ## Architecture design
 
-<img width="919" height="839" alt="image" src="https://github.com/user-attachments/assets/67abfceb-4a43-46a3-9cc0-96e023873c5e" />
+<img width="590" height="628" alt="image" src="https://github.com/user-attachments/assets/07f0f095-e0cd-4abd-bb5a-ea174af40d6c" />
+
