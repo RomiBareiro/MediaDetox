@@ -1,0 +1,336 @@
+openapi: 3.0.3
+info:
+  title: MindGuard API
+  description: |
+    MindGuard backend API para registrar eventos de uso de aplicaciones, consultar eventos, obtener alertas, calcular métricas y configurar reglas de detección.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /events:
+    post:
+      summary: Registrar un evento de uso
+      description: Recibe eventos de apertura/cierre de aplicaciones para un usuario.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventCreate'
+            example:
+              user_id: "123"
+              app_name: "instagram"
+              event_type: "open"
+              timestamp: "2026-06-23T10:00:00Z"
+      responses:
+        '201':
+          description: Evento registrado satisfactoriamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          description: JSON inválido o request inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 400
+                message: "invalid JSON"
+        '422':
+          description: Unprocessable Entity - validación de negocio fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 422
+                message: "unprocesable entity"
+  /users/{id}/events:
+    get:
+      summary: Consultar eventos históricos de un usuario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID del usuario
+        - name: start_date
+          in: query
+          schema:
+            type: string
+            format: date
+          description: Fecha de inicio del rango (YYYY-MM-DD)
+        - name: end_date
+          in: query
+          schema:
+            type: string
+            format: date
+          description: Fecha de fin del rango (YYYY-MM-DD)
+        - name: app_name
+          in: query
+          schema:
+            type: string
+          description: Nombre de la app para filtrar eventos
+      responses:
+        '200':
+          description: Lista de eventos del usuario
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+        '404':
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 404
+                message: "user not found"
+        '422':
+          description: Unprocessable Entity - parámetros de consulta inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 422
+                message: "unprocesable entity"
+  /users/{id}/alerts:
+    get:
+      summary: Consultar alertas generadas para un usuario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID del usuario
+      responses:
+        '200':
+          description: Alertas para el usuario
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Alert'
+        '404':
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 404
+                message: "user not found"
+        '422':
+          description: Unprocessable Entity - parámetros inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 422
+                message: "unprocesable entity"
+  /users/{id}/metrics:
+    get:
+      summary: Obtener métricas de uso para un usuario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID del usuario
+      responses:
+        '200':
+          description: Métricas calculadas para el usuario
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Metrics'
+        '404':
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 404
+                message: "user not found"
+        '422':
+          description: Unprocessable Entity - parámetros inválidos o rango de fechas incorrecto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 422
+                message: "unprocesable entity"
+  /rules:
+    post:
+      summary: Configurar una regla de detección personalizada
+      description: Crea una regla que el motor de alertas usará para detectar comportamientos específicos.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RuleCreate'
+            example:
+              app_name: "instagram"
+              max_opens: 15
+              window_minutes: 60
+      responses:
+        '201':
+          description: Regla creada satisfactoriamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rule'
+        '400':
+          description: JSON inválido o request inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 400
+                message: "invalid JSON"
+        '422':
+          description: Unprocessable Entity - regla inválida o incompleta
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 422
+                message: "unprocesable entity"
+components:
+  schemas:
+    EventCreate:
+      type: object
+      properties:
+        user_id:
+          type: string
+        app_name:
+          type: string
+        event_type:
+          type: string
+          enum:
+            - open
+            - close
+        timestamp:
+          type: string
+          format: date-time
+      required:
+        - user_id
+        - app_name
+        - event_type
+        - timestamp
+    Event:
+      type: object
+      properties:
+        id:
+          type: string
+        user_id:
+          type: string
+        app_name:
+          type: string
+        event_type:
+          type: string
+          enum:
+            - open
+            - close
+        timestamp:
+          type: string
+          format: date-time
+      required:
+        - id
+        - user_id
+        - app_name
+        - event_type
+        - timestamp
+    Alert:
+      type: object
+      properties:
+        type:
+          type: string
+        severity:
+          type: string
+          enum:
+            - low
+            - medium
+            - high
+        message:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+      required:
+        - type
+        - severity
+    Metrics:
+      type: object
+      properties:
+        opens_today:
+          type: integer
+        most_used_app:
+          type: string
+        alerts_today:
+          type: integer
+      required:
+        - opens_today
+        - most_used_app
+        - alerts_today
+    RuleCreate:
+      type: object
+      properties:
+        app_name:
+          type: string
+        max_opens:
+          type: integer
+        window_minutes:
+          type: integer
+      required:
+        - app_name
+        - max_opens
+        - window_minutes
+    Rule:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        app_name:
+          type: string
+        max_opens:
+          type: integer
+        window_minutes:
+          type: integer
+        enabled:
+          type: boolean
+      required:
+        - id
+        - name
+        - app_name
+        - max_opens
+        - window_minutes
+        - enabled
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+      required:
+        - code
+        - message
