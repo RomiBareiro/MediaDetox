@@ -1,8 +1,8 @@
-# MindGuard Backend Requirements
+# MediaDetox Backend Requirements
 
 ## Product Vision
 
-**MindGuard** (working title)
+**MediaDetox** 
 
 A backend platform that detects compulsive application usage patterns and generates alerts, metrics, and recommendations focused on digital well-being.
 
