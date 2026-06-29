@@ -22,7 +22,7 @@
                 <mxCell id="10" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Android&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="90" y="220" width="80" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="11" value="Process notifications" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="11" value="Notification Center" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="420" y="85" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="13" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="2" target="11" edge="1">
@@ -31,7 +31,7 @@
                         <mxPoint x="450" y="160" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="15" value="Send push notification" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="15" value="Push provider&lt;div&gt;FCM / APNs&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="596.5" y="85" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="16" value="" style="endArrow=classic;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="11" target="15" edge="1">
@@ -70,16 +70,16 @@
                 <mxCell id="26" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="17" target="25" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="27" value="" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.sqs;fillColor=#D9A741;gradientColor=none;" parent="1" vertex="1">
+                <mxCell id="27" value="Prometheus" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
                     <mxGeometry x="460" y="499" width="76.5" height="93" as="geometry"/>
                 </mxCell>
                 <mxCell id="30" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="25" target="27" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="33" value="SQS Metrics&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                <mxCell id="33" value="scrape /metrics&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="430" y="475" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="39" value="ProcessNotification&lt;div&gt;(send push notification)&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                <mxCell id="39" value="Publish notification&lt;div&gt;event&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="629" y="552.5" width="60" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="65" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="45" target="64" edge="1">
@@ -136,7 +136,7 @@
                 <mxCell id="63" value="POST" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="689" y="696" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="64" value="Notification center" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="64" value="Notification Center&lt;div&gt;push fan-out&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="710" y="603" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="66" value="" style="endArrow=classic;html=1;exitX=-0.02;exitY=0.619;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="50" edge="1">
@@ -160,7 +160,7 @@
                 <mxCell id="78" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;" parent="1" vertex="1">
                     <mxGeometry x="620" y="420" width="78" height="78" as="geometry"/>
                 </mxCell>
-                <mxCell id="79" value="MetricsProcessing" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                <mxCell id="79" value="API /metrics" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="627" y="380" width="60" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="81" value="POST" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
@@ -202,7 +202,7 @@
                 <mxCell id="94" value="SQS Notifications" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="390" y="618" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="95" value="Save metrics" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="95" value="Expose metrics&lt;div&gt;for Prometheus&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="420" y="230" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="97" style="edgeStyle=none;html=1;entryX=0.008;entryY=0.367;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="6" target="95" edge="1">

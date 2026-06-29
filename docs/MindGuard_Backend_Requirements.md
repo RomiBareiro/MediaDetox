@@ -18,7 +18,8 @@ The system must:
 - Store usage events.
 - Analyze behavioral patterns.
 - Generate alerts.
-- Expose metrics through APIs.
+- Expose operational metrics for Prometheus.
+- Publish notification events to a Notification Center.
 
 **Note:** No blocking functionality will be implemented in the MVP.
 
@@ -74,6 +75,8 @@ Examples:
 - night usage
 - checking loops
 
+Generated alerts must be persisted and published to the Notification Center so downstream channels can send push notifications, email, or other user-facing messages.
+
 ---
 
 ## FR-004 Query Alerts
@@ -95,7 +98,7 @@ Response:
 
 ---
 
-## FR-005 Calculate Metrics
+## FR-005 Query Usage Summary
 
 ```http
 GET /users/{id}/metrics
@@ -110,6 +113,18 @@ Example:
   "alerts_today": 3
 }
 ```
+
+This endpoint returns product/domain usage summaries for a user. Operational service metrics must be exposed separately for Prometheus scraping.
+
+---
+
+## FR-010 Expose Prometheus Metrics
+
+```http
+GET /metrics
+```
+
+The endpoint must expose Prometheus-compatible operational metrics such as request counts, request duration, processed events, generated alerts, and repository errors.
 
 ---
 
@@ -277,7 +292,19 @@ Example:
 
 ---
 
-## NFR-006 Concurrency
+## NFR-006 Prometheus Metrics
+
+Prometheus must collect service metrics by scraping the backend `/metrics` endpoint. Metrics must not be pushed through SQS or persisted as application records.
+
+---
+
+## NFR-007 Notification Center
+
+The backend must not call mobile push providers directly from the rule engine. Alert generation must publish a notification event to a Notification Center, which owns push delivery through providers such as FCM or APNs.
+
+---
+
+## NFR-008 Concurrency
 
 Events must be processed asynchronously.
 
@@ -295,6 +322,8 @@ Worker
 Rule Engine
  ↓
 Alerts
+ ↓
+Notification Center
 ```
 
 ---
@@ -309,6 +338,8 @@ GET    /users/{id}/events
 GET    /users/{id}/alerts
 
 GET    /users/{id}/metrics
+
+GET    /metrics
 
 POST   /rules
 
@@ -346,5 +377,4 @@ The following features are intentionally out of scope for the MVP:
 6. Asynchronous processing with goroutines and channels.
 7. Swagger documentation.
 8. Docker Compose setup.
-
 
