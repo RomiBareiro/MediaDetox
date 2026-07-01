@@ -18,6 +18,11 @@ const (
 	ErrMethodNotAllowed = "method not allowed"
 	ErrNotFound         = "not found"
 )
+const (
+	UsersEvents  = "events"
+	UsersMetrics = "metrics"
+	UsersAlerts  = "alerts"
+)
 
 type Handler struct {
 	service *usecase.UsageService
@@ -107,19 +112,19 @@ func (h *Handler) handleUserRoutes(w http.ResponseWriter, r *http.Request) {
 
 	userID := parts[1]
 	switch parts[2] {
-	case "events":
+	case UsersEvents:
 		if r.Method != http.MethodGet {
 			h.replyError(w, http.StatusMethodNotAllowed, ErrMethodNotAllowed)
 			return
 		}
 		h.handleGetEvents(w, r, userID)
-	case "alerts":
+	case UsersAlerts:
 		if r.Method != http.MethodGet {
 			h.replyError(w, http.StatusMethodNotAllowed, ErrMethodNotAllowed)
 			return
 		}
 		h.handleGetAlerts(w, userID)
-	case "metrics":
+	case UsersMetrics:
 		if r.Method != http.MethodGet {
 			h.replyError(w, http.StatusMethodNotAllowed, ErrMethodNotAllowed)
 			return
